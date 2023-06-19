@@ -8,9 +8,8 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
-app.get("/",(req,res)=>{
-    res.send("Hello World!");
-});
+const routers = require("./routers/index");
+app.use("/",routers.MainRouter);
 
 app.listen(port, () => {
     console.log("WebApi Listening On Port : ",port);
