@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { MainController } = require("../controllers/index");
 
-router.use("/",MainController.HomePageGET);
+router.get("/",MainController.HomePageGET);
 
 module.exports = router;

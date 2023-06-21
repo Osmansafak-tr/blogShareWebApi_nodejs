@@ -8,16 +8,18 @@ const dbOperations = require("./database/db_operations");
 const port = process.env.PORT;
 
 exports.useMiddlewares = () => {
-    app.use(bodyParser.json());
-}
+  app.use(bodyParser.json());
+};
 
 exports.useRouters = () => {
-    const routers = require("./routers/index");
-    app.use("/",routers.MainRouter);
+  const routers = require("./routers/index");
+  app.use("/", routers.MainRouter);
+  app.use("/admin", routers.AdminRouter);
 };
 
 exports.connectDbAndListen = async () => {
   await dbOperations.connect();
+  await dbOperations.generateData();
   app.listen(port, () => {
     console.log("WebApi Listening On Port : ", port);
   });
