@@ -61,6 +61,7 @@ exports.UpdateKeyword = async (req, res) => {
     name = name != "" ? name : keyword.name;
     const updateModel = {
       name: name,
+      updatedAt: Date.now()
     };
     await KeywordModel.updateOne({ _id: id }, updateModel);
     return res.status(200).json({ message: "Keyword successfully updated." });
