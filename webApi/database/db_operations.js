@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { KeywordModel } = require("../models/index");
+const { Keyword, Role } = require("../models/index");
 
 exports.connect = async () => {
   try {
@@ -11,7 +11,11 @@ exports.connect = async () => {
 };
 
 async function isDatabaseEmpty() {
-  if ((await KeywordModel.findOne()) != null) {
+  if ((await Keyword.findOne()) != null) {
+    return false;
+  }
+
+  if ((await Role.findOne()) != null) {
     return false;
   }
 
@@ -20,7 +24,7 @@ async function isDatabaseEmpty() {
 
 exports.generateData = async () => {
   if ((await isDatabaseEmpty()) == true) {
-    KeywordModel.insertMany([
+    Keyword.insertMany([
       {
         name: "Science",
         createdAt: Date.now(),
@@ -33,6 +37,19 @@ exports.generateData = async () => {
       },
       {
         name: "Education",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      },
+    ]);
+
+    Role.insertMany([
+      {
+        name: "User",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      },
+      {
+        name: "Admin",
         createdAt: Date.now(),
         updatedAt: Date.now(),
       },

@@ -1,3 +1,4 @@
 module.exports = {
-    KeywordRouter : require("./keyword")
-}
+  KeywordRouter: require("./keyword"),
+  RoleRouter: require("./role"),
+};

@@ -1,3 +1,4 @@
 module.exports = {
-    KeywordController : require("./keyword")
-}
+  KeywordController: require("./keyword"),
+  RoleController: require("./role"),
+};

@@ -1,3 +1,4 @@
 module.exports = {
-    KeywordModel : require("./keyword")
-}
+  Keyword: require("./keyword"),
+  Role: require("./role"),
+};
