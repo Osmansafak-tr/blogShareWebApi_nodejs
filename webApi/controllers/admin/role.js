@@ -14,7 +14,7 @@ exports.GetRoleById = async (req, res) => {
   const { id } = req.params;
   try {
     const role = await Role.findOne({ _id: id }).select("-_id -__v");
-    if (role == null) return res.status(404).send("Role can not found.");
+    if (role == null) return res.status(404).json("Role can not found.");
 
     return res.status(200).json(role);
   } catch (error) {
