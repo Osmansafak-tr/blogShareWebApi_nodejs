@@ -11,8 +11,14 @@ const userSchema = Schema({
     required: true,
   },
 
-  name: String,
-  surname: String,
+  name: {
+    type: String,
+    default: "",
+  },
+  surname: {
+    type: String,
+    default: "",
+  },
   dateOfBirth: Date,
   roles: [
     {
@@ -32,11 +38,23 @@ const userSchema = Schema({
       ref: "Blog",
     },
   ],
-  accessToken: String,
-  refreshToken: String,
+  accessToken: {
+    type: String,
+    default: "",
+  },
+  refreshToken: {
+    type: String,
+    default: "",
+  },
   refreshTokenExpireDate: Date,
-  createdAt: Date,
-  updatedAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

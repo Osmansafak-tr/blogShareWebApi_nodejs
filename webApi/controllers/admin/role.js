@@ -27,8 +27,6 @@ exports.CreateRole = async (req, res) => {
   const { name } = req.body;
   const createModel = {
     name: name,
-    updatedAt: Date.now(),
-    createdAt: Date.now(),
   };
   try {
     const role = Role.findOne({ name: name });
@@ -65,7 +63,7 @@ exports.DeleteRole = async (req, res) => {
   const { id } = req.params;
   try {
     const deleteDoc = await Role.deleteOne({ _id: id });
-    if(deleteDoc.deletedCount == 0)
+    if (deleteDoc.deletedCount == 0)
       return res.status(404).json("Role can not found.");
 
     return res.status(200).json({ message: "Role successfully deleted." });

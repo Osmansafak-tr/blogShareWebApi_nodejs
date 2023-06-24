@@ -38,11 +38,23 @@ const commentSchema = Schema({
         createdAt: Date,
       },
     ],
-    likeCount: Number,
-    dislikeCount: Number,
+    likeCount: {
+      type: Number,
+      default: 0,
+    },
+    dislikeCount: {
+      type: Number,
+      default: 0,
+    },
   },
-  createdAt: Date,
-  updatedAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Comment", commentSchema);

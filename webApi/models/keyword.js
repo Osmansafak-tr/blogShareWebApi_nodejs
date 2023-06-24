@@ -7,8 +7,14 @@ const keywordSchema = Schema({
     type: String,
   },
 
-  createdAt: Date,
-  updatedAt: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model("Keyword",keywordSchema);
+module.exports = mongoose.model("Keyword", keywordSchema);

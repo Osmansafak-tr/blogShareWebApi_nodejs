@@ -30,11 +30,9 @@ exports.GetKeywordById = (req, res) => {
 
 exports.CreateKeyword = async (req, res) => {
   const { name } = req.body;
-  const createModel = new Keyword({
+  const createModel = {
     name: name,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-  });
+  };
 
   try {
     const keyword = await Keyword.findOne({ name: name });
