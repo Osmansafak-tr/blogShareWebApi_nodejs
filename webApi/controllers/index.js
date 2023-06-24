@@ -1,3 +1,4 @@
 module.exports = {
-    MainController : require("./main")
-}
+  MainController: require("./main"),
+  AdminControllers: require("./admin/index"),
+};
