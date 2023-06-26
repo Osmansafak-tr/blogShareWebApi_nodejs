@@ -3,4 +3,5 @@ module.exports = {
   RoleValidator: require("./role"),
   UserValidator: require("./user"),
   CommentValidator: require("./comment"),
+  BlogValidator: require("./blog"),
 };

@@ -3,4 +3,5 @@ module.exports = {
   RoleRouter: require("./role"),
   UserRouter: require("./user"),
   CommentRouter: require("./comment"),
+  BlogRouter: require("./blog"),
 };
