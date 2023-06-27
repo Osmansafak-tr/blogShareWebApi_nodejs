@@ -1,4 +1,5 @@
 const appFunctions = require("./app_functions");
-appFunctions.useMiddlewares();
+appFunctions.useMiddlewaresBeforeRouters();
 appFunctions.useRouters();
+appFunctions.useMiddlewaresAfterRouters();
 appFunctions.connectDbAndListen();

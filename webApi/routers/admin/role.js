@@ -1,35 +1,37 @@
 const router = require("express").Router();
+const { tryCatch } = require("../../common").utils;
 const { RoleController } = require("../../controllers").AdminControllers;
 const { RoleValidator } = require("../../validators").AdminValidators;
-const handleValResult = require("../../middlewares").ControllerMiddlewares.HandleValResult;
+const handleValResult =
+  require("../../middlewares").ControllerMiddlewares.HandleValResult;
 
-router.get("/", RoleController.GetRoles);
+router.get("/", tryCatch(RoleController.GetRoles));
 router.get(
   "/:id",
   RoleValidator.GetRoleByIdValidator,
   handleValResult,
-  RoleController.GetRoleById
+  tryCatch(RoleController.GetRoleById)
 );
 
 router.post(
   "/",
   RoleValidator.CreateRoleValidator,
   handleValResult,
-  RoleController.CreateRole
+  tryCatch(RoleController.CreateRole)
 );
 
 router.put(
   "/:id",
   RoleValidator.UpdateRoleValidator,
   handleValResult,
-  RoleController.UpdateRole
+  tryCatch(RoleController.UpdateRole)
 );
 
 router.delete(
   "/:id",
   RoleValidator.DeleteRoleValidator,
   handleValResult,
-  RoleController.DeleteRole
+  tryCatch(RoleController.DeleteRole)
 );
 
 module.exports = router;
