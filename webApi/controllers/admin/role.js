@@ -1,4 +1,7 @@
 const { Role } = require("../../models");
+const common = require("../../common/index");
+const { AppError } = common.classes;
+const { ErrorConstants } = common.constants;
 
 exports.GetRoles = async (req, res) => {
   const roles = await Role.find().select("-_id -__v");
@@ -8,7 +11,8 @@ exports.GetRoles = async (req, res) => {
 exports.GetRoleById = async (req, res) => {
   const { id } = req.params;
   const role = await Role.findOne({ _id: id }).select("-_id -__v");
-  if (role == null) throw new Error("Role can not found.");
+  if (role == null)
+    throw new AppError(ErrorConstants.InvalidIdError, "Role can not found.");
 
   return res.status(200).json(role);
 };
