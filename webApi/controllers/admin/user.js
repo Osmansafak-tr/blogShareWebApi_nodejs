@@ -1,24 +1,18 @@
 const { User } = require("../../models");
+const common = require("../../common");
+const { AppError } = common.classes;
+const { ErrorConstants } = common.constants;
 
 exports.GetUsers = async (req, res) => {
-  try {
-    const users = await User.find().select("-__v");
-    return res.status(200).json(users);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json(error);
-  }
+  const users = await User.find().select("-__v");
+  return res.status(200).json(users);
 };
 
 exports.GetUserById = async (req, res) => {
   const { id } = req.params;
-  try {
-    const user = await User.findOne({ _id: id }).select("-_id -__v");
-    if (user == null) return res.status(404).json("User can not found.");
+  const user = await User.findOne({ _id: id }).select("-_id -__v");
+  if (user == null)
+    throw new AppError(ErrorConstants.DataNotFound, "User can not found.");
 
-    return res.status(200).json(user);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json(error);
-  }
+  return res.status(200).json(user);
 };

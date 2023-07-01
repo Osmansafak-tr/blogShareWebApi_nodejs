@@ -1,8 +1,8 @@
 const { check, param } = require("express-validator");
 
 exports.GetKeywordByIdValidator = [
-    param("id", "Id parameter's length should be 24.").isLength(24),
-]
+  param("id", "Id parameter's length should be 24.").isLength(24),
+];
 
 exports.CreateKeywordValidator = [
   check("name", "This name should have at least 3 characters").trim().isLength({
@@ -18,5 +18,5 @@ exports.UpdateKeywordValidator = [
 ];
 
 exports.DeleteKeywordValidator = [
-    param("id", "Id parameter's length should be 24.").isLength(24),
-]
+  param("id", "Id parameter's length should be 24.").isLength(24),
+];

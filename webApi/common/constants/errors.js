@@ -7,4 +7,5 @@ function setError(type, errorCode, status) {
   return error;
 }
 
-exports.InvalidIdError = setError("Invalid Id Error", 300, 404);
+exports.DataNotFound = setError("Invalid Id Error", 300, 404);
+exports.SameDataAlreadyCreated = setError("Same Data Created Error", 301, 400);

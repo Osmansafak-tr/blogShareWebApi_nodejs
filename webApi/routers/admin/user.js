@@ -1,14 +1,16 @@
 const router = require("express").Router();
+const { tryCatch } = require("../../common").utils;
 const { UserController } = require("../../controllers").AdminControllers;
 const { UserValidator } = require("../../validators").AdminValidators;
-const handleValResult = require("../../middlewares").ControllerMiddlewares.HandleValResult;
+const handleValResult =
+  require("../../middlewares").ControllerMiddlewares.HandleValResult;
 
-router.get("/", UserController.GetUsers);
+router.get("/", tryCatch(UserController.GetUsers));
 router.get(
   "/:id",
   UserValidator.GetUserByIdValidator,
   handleValResult,
-  UserController.GetUserById
+  tryCatch(UserController.GetUserById)
 );
 
 module.exports = router;

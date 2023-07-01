@@ -1,31 +1,20 @@
 const { Keyword } = require("../../models/index");
+const common = require("../../common/index");
+const { AppError } = common.classes;
+const { ErrorConstants } = common.constants;
 
-exports.GetKeywords = (req, res) => {
-  Keyword.find()
-    .select("-_id -__v")
-    .then((keywords) => {
-      return res.status(200).json(keywords);
-    })
-    .catch((error) => {
-      console.error(error);
-      return res.status(500);
-    });
+exports.GetKeywords = async (req, res) => {
+  const keywords = await Keyword.find().select("-__v");
+  return res.status(200).json(keywords);
 };
 
-exports.GetKeywordById = (req, res) => {
+exports.GetKeywordById = async (req, res) => {
   const { id } = req.params;
-  Keyword.findOne({ _id: id })
-    .select("-_id -__v")
-    .then((keyword) => {
-      if (keyword == null)
-        return res.status(404).send("Keyword can not found.");
+  const keyword = await Keyword.findOne({ _id: id }).select("-__v");
+  if (keyword == null)
+    throw new AppError(ErrorConstants.DataNotFound, "Keyword can not found.");
 
-      return res.status(200).json(keyword);
-    })
-    .catch((error) => {
-      console.error(error);
-      return res.status(500);
-    });
+  return res.status(200).json(keyword);
 };
 
 exports.CreateKeyword = async (req, res) => {
@@ -34,48 +23,46 @@ exports.CreateKeyword = async (req, res) => {
     name: name,
   };
 
-  try {
-    const keyword = await Keyword.findOne({ name: name });
-    if (keyword != null)
-      return res.status(501).json("There is a keyword that has the same name.");
+  const keyword = await Keyword.findOne({ name: name });
+  if (keyword != null)
+    throw new AppError(
+      ErrorConstants.SameDataAlreadyCreated,
+      "There is a keyword that has the same name."
+    );
 
-    await Keyword.create(createModel);
-    return res.status(200).json("Keyword successfully created.");
-  } catch (error) {
-    console.error = error;
-    return res.status(500).json(error);
-  }
+  await Keyword.create(createModel);
+  return res.status(200).json("Keyword successfully created.");
 };
 
 exports.UpdateKeyword = async (req, res) => {
   const { id } = req.params;
   var { name } = req.body;
-  
-  try {
-    const keyword = await Keyword.findOne({ _id: id });
-    if (keyword == null) 
-      return res.status(404).send("Keyword can not found.");
 
-    keyword.name = name;
-    keyword.updatedAt = Date.now();
-    await keyword.save();
-    return res.status(200).json({ message: "Keyword successfully updated." });
-  } catch (error) {
-    console.error = error;
-    return res.status(500).json(error);
-  }
+  const keyword = await Keyword.findOne({ _id: id });
+  if (keyword == null)
+    throw new AppError(ErrorConstants.DataNotFound, "Keyword can not found.");
+
+  const keywordWithSameName = await Keyword.findOne({
+    _id: { $ne: id },
+    name: name,
+  }).select("_id");
+  if (keywordWithSameName != null)
+    throw new AppError(
+      ErrorConstants.SameDataAlreadyCreated,
+      "There is a keyword that has the same name."
+    );
+
+  keyword.name = name;
+  keyword.updatedAt = Date.now();
+  await keyword.save();
+  return res.status(200).json({ message: "Keyword successfully updated." });
 };
 
 exports.DeleteKeyword = async (req, res) => {
   const { id } = req.params;
-  try {
-    const deleteDoc = await Keyword.deleteOne({ _id: id });
-    if(deleteDoc.deletedCount == 0)
-      return res.status(404).json("Keyword can not found.");
+  const deleteDoc = await Keyword.deleteOne({ _id: id });
+  if (deleteDoc.deletedCount == 0)
+    throw new AppError(ErrorConstants.DataNotFound, "Keyword can not found.");
 
-    return res.status(200).json({ message: "Keyword successfully deleted." });
-  } catch (error) {
-    console.error = error;
-    return res.status(500).json(error);
-  }
+  return res.status(200).json({ message: "Keyword successfully deleted." });
 };
