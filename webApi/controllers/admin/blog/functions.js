@@ -18,11 +18,3 @@ exports.isKeywordsValid = async (keywords) => {
 
   return true;
 };
-
-// exports.checkIfBodyIsValid = async (req,res) => {
-//   if (!(await isAuthorValid(req.body.author)))
-//     return res.status(500).json("Author is invalid");
-
-//   if (!(await isKeywordsValid(req.body.keywords)))
-//     return res.status(500).json("Keywords are invalid");
-// };

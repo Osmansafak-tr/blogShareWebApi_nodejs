@@ -6,8 +6,9 @@ require("dotenv").config();
 // My imports
 const dbOperations = require("./database/db_operations");
 const port = process.env.PORT;
+const { errorHandler } = require("./middlewares");
 
-exports.useMiddlewares = () => {
+exports.useMiddlewaresBeforeRouters = () => {
   app.use(bodyParser.json());
 };
 
@@ -15,6 +16,10 @@ exports.useRouters = () => {
   const routers = require("./routers/index");
   app.use("/", routers.MainRouter);
   app.use("/admin", routers.AdminRouter);
+};
+
+exports.useMiddlewaresAfterRouters = () => {
+  app.use(errorHandler);
 };
 
 exports.connectDbAndListen = async () => {

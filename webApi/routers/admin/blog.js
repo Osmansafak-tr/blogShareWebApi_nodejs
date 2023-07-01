@@ -1,36 +1,37 @@
 const router = require("express").Router();
+const { tryCatch } = require("../../common").utils;
 const { BlogController } = require("../../controllers").AdminControllers;
 const { BlogValidator } = require("../../validators").AdminValidators;
 const handleValResult =
   require("../../middlewares").ControllerMiddlewares.HandleValResult;
 
-router.get("/", BlogController.GetBlogs);
+router.get("/", tryCatch(BlogController.GetBlogs));
 router.get(
   "/:id",
   BlogValidator.GetBlogByIdValidator,
   handleValResult,
-  BlogController.GetBlogById
+  tryCatch(BlogController.GetBlogById)
 );
 
 router.post(
   "/",
   BlogValidator.CreateBlogValidator,
   handleValResult,
-  BlogController.CreateBlog
+  tryCatch(BlogController.CreateBlog)
 );
 
 router.put(
   "/:id",
   BlogValidator.UpdateBlogValidator,
   handleValResult,
-  BlogController.UpdateBlog
+  tryCatch(BlogController.UpdateBlog)
 );
 
 router.delete(
   "/:id",
   BlogValidator.DeleteBlogValidator,
   handleValResult,
-  BlogController.DeleteBlog
+  tryCatch(BlogController.DeleteBlog)
 );
 
 module.exports = router;
