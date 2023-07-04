@@ -11,3 +11,5 @@ exports.CreateTokensValidator = [
 exports.RefreshTokenValidator = [
   check("refreshToken", "Invalid refresh token").isJWT(),
 ];
+
+exports.DeleteToken = [check("refreshToken", "Invalid refresh token").isJWT()];

@@ -17,4 +17,11 @@ router.post(
   tryCatch(controller.RefreshToken)
 );
 
+router.delete(
+  "/",
+  validator.DeleteToken,
+  handleValResult,
+  tryCatch(controller.DeleteToken)
+);
+
 module.exports = router;

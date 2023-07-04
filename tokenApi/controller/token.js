@@ -34,3 +34,12 @@ exports.RefreshToken = async (req, res) => {
     return res.json({ accessToken: accessToken });
   });
 };
+
+exports.DeleteToken = async (req, res) => {
+  const { refreshToken } = req.body;
+  const doc = await RefreshToken.deleteOne({ jwt: refreshToken });
+  if (doc.deletedCount == 0)
+    return res.status(404).json("Refresh token can not found.");
+
+  return res.status(200).json({ message: "Refresh token successfully deleted." });
+};
