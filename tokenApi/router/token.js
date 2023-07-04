@@ -10,5 +10,11 @@ router.post(
   handleValResult,
   tryCatch(controller.CreateTokens)
 );
+router.post(
+  "/refreshToken",
+  validator.RefreshTokenValidator,
+  handleValResult,
+  tryCatch(controller.RefreshToken)
+);
 
 module.exports = router;

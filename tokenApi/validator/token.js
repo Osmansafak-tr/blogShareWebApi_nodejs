@@ -7,3 +7,7 @@ exports.CreateTokensValidator = [
     max: 18,
   }),
 ];
+
+exports.RefreshTokenValidator = [
+  check("refreshToken", "Invalid refresh token").isJWT(),
+];
