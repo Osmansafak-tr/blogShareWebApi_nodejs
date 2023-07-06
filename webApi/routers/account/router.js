@@ -10,5 +10,11 @@ router.post(
   handleValResult,
   tryCatch(AccountController.Register)
 );
+router.post(
+  "/login",
+  AccountValidator.LoginValidator,
+  handleValResult,
+  tryCatch(AccountController.Login)
+);
 
 module.exports = router;

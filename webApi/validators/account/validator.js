@@ -13,3 +13,11 @@ exports.RegisterValidator = [
     max: 20,
   }),
 ];
+
+exports.LoginValidator = [
+  check("email", "Invalid email").isEmail(),
+  check("password", "Password should be 5-18 length").isLength({
+    min: 5,
+    max: 18,
+  }),
+];
