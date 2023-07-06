@@ -1,3 +1,3 @@
 module.exports = {
-  HandleValResult: require("./handleValResult"),
+  handleValResult: require("./handleValResult"),
 };

@@ -2,8 +2,7 @@ const router = require("express").Router();
 const { tryCatch } = require("../../common").utils;
 const { KeywordController } = require("../../controllers").AdminControllers;
 const { KeywordValidator } = require("../../validators").AdminValidators;
-const handleValResult =
-  require("../../middlewares").ControllerMiddlewares.HandleValResult;
+const { handleValResult } = require("../../middlewares").ControllerMiddlewares;
 
 router.get("/", tryCatch(KeywordController.GetKeywords));
 router.get(

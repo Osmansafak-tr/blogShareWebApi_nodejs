@@ -16,6 +16,7 @@ exports.useRouters = () => {
   const routers = require("./routers/index");
   app.use("/", routers.MainRouter);
   app.use("/admin", routers.AdminRouter);
+  app.use("/account", routers.AccountRouter);
 };
 
 exports.useMiddlewaresAfterRouters = () => {
