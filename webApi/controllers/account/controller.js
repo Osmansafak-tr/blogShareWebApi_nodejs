@@ -54,3 +54,20 @@ exports.Login = async (req, res) => {
 
   return res.status(200).json({ message: "User successfully login" });
 };
+
+exports.Logout = async (req, res) => {
+  const refreshToken = req.user != null ? req.user.refreshToken : null;
+  console.log("Refresh Token : " + refreshToken);
+  if (refreshToken == null)
+    throw new AppError(
+      ErrorConstants.DataNotFound,
+      "Refresh token can not found"
+    );
+  await axios.delete(`${process.env.TOKEN_API_URL}`, {
+    data: {
+      refreshToken: refreshToken,
+    },
+  });
+  await res.clearCookie("jwt");
+  return res.status(200).json("User logout successful.");
+};

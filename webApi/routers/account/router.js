@@ -16,5 +16,6 @@ router.post(
   handleValResult,
   tryCatch(AccountController.Login)
 );
+router.post("/logout", tryCatch(AccountController.Logout));
 
 module.exports = router;

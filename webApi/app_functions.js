@@ -19,7 +19,7 @@ exports.useRouters = () => {
   const { checkAuth } = require("./middlewares").AccountMiddleWares.auth;
   app.use("/", routers.MainRouter);
   app.use("/admin",checkAuth, routers.AdminRouter);
-  app.use("/account", routers.AccountRouter);
+  app.use("/account",checkAuth, routers.AccountRouter);
 };
 
 exports.useMiddlewaresAfterRouters = () => {

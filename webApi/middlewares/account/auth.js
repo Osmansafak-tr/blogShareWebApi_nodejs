@@ -3,7 +3,6 @@ const { User } = require("../../models");
 
 exports.checkAuth = async (req, res, next) => {
   const token = req.cookies.jwt != undefined ? req.cookies.jwt : null;
-  console.log(token);
 
   if (token == null) {
     req.user = null;
@@ -15,14 +14,19 @@ exports.checkAuth = async (req, res, next) => {
       return next(err);
     }
 
-    const user = User.findOne({ email: decodedToken.email });
-    if (user == null) {
-      req.user = null;
-      return next();
-    }
+    const filter = {
+      email: decodedToken.email,
+      password: decodedToken.password,
+    };
+    User.findOne(filter).then((user) => {
+      if (user == null) {
+        req.user = null;
+        return next();
+      }
 
-    res.locals.user = user;
-    req.user = user;
-    return next();
+      req.user = user;
+      return next();
+    });
+
   });
 };
