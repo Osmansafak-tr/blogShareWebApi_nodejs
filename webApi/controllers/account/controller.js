@@ -1,6 +1,6 @@
 const { User } = require("../../models");
 const { AppError } = require("../../common/classes");
-const { ErrorConstants } = require("../../common/constants");
+const { ErrorConstants,RoleConstants } = require("../../common/constants");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 
@@ -18,6 +18,7 @@ exports.Register = async (req, res) => {
       password: hashedPassword,
       name: name == null || name == undefined ? "" : name,
       surname: surname == null || surname == undefined ? "" : surname,
+      roles: [RoleConstants.USER]
     };
     User.create(userModel);
   });
