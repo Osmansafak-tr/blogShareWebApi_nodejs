@@ -31,7 +31,13 @@ exports.RefreshToken = async (req, res) => {
       email: user.email,
       password: user.password,
     });
-    return res.json({ accessToken: accessToken });
+    const newRefreshToken = generateRefreshToken({
+      email: user.email,
+      password: user.password,
+    });
+    RefreshToken.create({ jwt: newRefreshToken });
+    
+    return res.json({ accessToken: accessToken, refreshToken: newRefreshToken });
   });
 };
 

@@ -25,6 +25,9 @@ exports.Register = async (req, res) => {
 };
 
 exports.Login = async (req, res) => {
+  if(req.user != null)
+    throw new Error("User already login.");
+
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
   if (user == null)
@@ -57,7 +60,6 @@ exports.Login = async (req, res) => {
 
 exports.Logout = async (req, res) => {
   const refreshToken = req.user != null ? req.user.refreshToken : null;
-  console.log("Refresh Token : " + refreshToken);
   if (refreshToken == null)
     throw new AppError(
       ErrorConstants.DataNotFound,
@@ -70,4 +72,31 @@ exports.Logout = async (req, res) => {
   });
   await res.clearCookie("jwt");
   return res.status(200).json("User logout successful.");
+};
+
+exports.Refresh = async (req,res) => {
+  const refreshToken = req.user != null ? req.user.refreshToken : null;
+  if (refreshToken == null)
+    throw new AppError(
+      ErrorConstants.DataNotFound,
+      "Refresh token can not found"
+    );
+  // Check User
+  const user = await User.findOne({_id: req.user._id});
+  if(user == null)
+    throw new AppError(ErrorConstants.DataNotFound, "User can not found");
+  // Refresh users refreshToken
+  const tokens = await axios.post(`${process.env.TOKEN_API_URL}/refreshToken`, {refreshToken: refreshToken});
+  const newRefreshToken = tokens.data.refreshToken;
+  user.refreshToken = newRefreshToken;
+  await user.save();
+  // Create new cookie
+  const newAccessToken = tokens.data.accessToken;
+  await res.clearCookie("jwt");
+  await res.cookie("jwt", newAccessToken, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24,
+  });
+
+  return res.status(200).json({ message: "Cookie successfully refreshed." });
 };

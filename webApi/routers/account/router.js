@@ -18,4 +18,6 @@ router.post(
 );
 router.post("/logout", tryCatch(AccountController.Logout));
 
+router.put("/refresh", tryCatch(AccountController.Refresh));
+
 module.exports = router;
