@@ -16,10 +16,11 @@ exports.useMiddlewaresBeforeRouters = () => {
 
 exports.useRouters = () => {
   const routers = require("./routers/index");
-  const { checkAuth } = require("./middlewares").AccountMiddleWares.auth;
-  app.use("/", routers.MainRouter);
-  app.use("/admin",checkAuth, routers.AdminRouter);
-  app.use("/account",checkAuth, routers.AccountRouter);
+  const { checkAuth, isAdmin } =
+    require("./middlewares").AccountMiddleWares.auth;
+  app.use("/", checkAuth, routers.MainRouter);
+  app.use("/admin", checkAuth, isAdmin, routers.AdminRouter);
+  app.use("/account", checkAuth, routers.AccountRouter);
 };
 
 exports.useMiddlewaresAfterRouters = () => {

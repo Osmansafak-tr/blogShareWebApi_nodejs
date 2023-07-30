@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../../models");
+const { RoleConstants } = require("../../common").constants;
 
 exports.checkAuth = async (req, res, next) => {
   const token = req.cookies.jwt != undefined ? req.cookies.jwt : null;
@@ -29,4 +30,17 @@ exports.checkAuth = async (req, res, next) => {
     });
 
   });
+};
+
+exports.isAdmin = async (req,res,next) => {
+  const user = req.user;
+  if(user == null)
+    return next(new Error("User is not Authenticated."));
+
+  for (const role in user.roles) {
+    if(user.roles[role] == RoleConstants.ADMIN)
+      return next();
+  }
+
+  return next(new Error("User have not Admin role."));
 };
