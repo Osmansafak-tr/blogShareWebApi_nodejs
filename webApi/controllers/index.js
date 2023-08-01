@@ -1,5 +1,5 @@
 module.exports = {
-  MainController: require("./main"),
+  MainControllers: require("./main/index"),
   AdminControllers: require("./admin/index"),
   AccountController: require("./account/controller"),
 };
