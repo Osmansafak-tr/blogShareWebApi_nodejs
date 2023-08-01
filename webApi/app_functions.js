@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 // Third party imports
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 // My imports
 const dbOperations = require("./database/db_operations");
@@ -10,12 +11,16 @@ const { errorHandler } = require("./middlewares");
 
 exports.useMiddlewaresBeforeRouters = () => {
   app.use(bodyParser.json());
+  app.use(cookieParser());
 };
 
 exports.useRouters = () => {
   const routers = require("./routers/index");
-  app.use("/", routers.MainRouter);
-  app.use("/admin", routers.AdminRouter);
+  const { checkAuth, isAdmin } =
+    require("./middlewares").AccountMiddleWares.auth;
+  app.use("/", checkAuth, routers.MainRouter);
+  app.use("/admin", checkAuth, isAdmin, routers.AdminRouter);
+  app.use("/account", checkAuth, routers.AccountRouter);
 };
 
 exports.useMiddlewaresAfterRouters = () => {

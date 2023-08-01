@@ -2,8 +2,7 @@ const router = require("express").Router();
 const { tryCatch } = require("../../common").utils;
 const { BlogController } = require("../../controllers").AdminControllers;
 const { BlogValidator } = require("../../validators").AdminValidators;
-const handleValResult =
-  require("../../middlewares").ControllerMiddlewares.HandleValResult;
+const { handleValResult } = require("../../middlewares").ControllerMiddlewares;
 
 router.get("/", tryCatch(BlogController.GetBlogs));
 router.get(
