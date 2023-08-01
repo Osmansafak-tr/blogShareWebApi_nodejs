@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const axios = require("axios");
 
 exports.Register = async (req, res) => {
-  const { email, password, name, surname } = req.body;
+  const { email, password, name, surname, dateOfBirth } = req.body;
   if ((await User.findOne({ email: email })) != null)
     throw new AppError(
       ErrorConstants.SameDataAlreadyCreated,
@@ -18,6 +18,7 @@ exports.Register = async (req, res) => {
       password: hashedPassword,
       name: name == null || name == undefined ? "" : name,
       surname: surname == null || surname == undefined ? "" : surname,
+      dateOfBirth: dateOfBirth == null ? 0 : dateOfBirth,
       roles: [RoleConstants.USER]
     };
     User.create(userModel);

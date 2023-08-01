@@ -19,7 +19,10 @@ const userSchema = Schema({
     type: String,
     default: "",
   },
-  dateOfBirth: Date,
+  dateOfBirth: {
+    type: Date,
+    default: 0,
+  },
   roles: [
     {
       type: mongoose.Types.ObjectId,
