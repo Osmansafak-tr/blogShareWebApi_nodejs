@@ -1,10 +1,10 @@
 const router = require("express").Router();
-const { ProfileValidator } = require("../../validators").MainValidators;
+const { ProfileValidator } = require("../../../validators").MainValidators;
 const validator = ProfileValidator;
-const { ProfileController } = require("../../controllers").MainControllers;
+const { ProfileController } = require("../../../controllers/main").ProfileControllers;
 const controller = ProfileController;
-const { handleValResult } = require("../../middlewares").ControllerMiddlewares;
-const { tryCatch } = require("../../common").utils;
+const { handleValResult } = require("../../../middlewares").ControllerMiddlewares;
+const { tryCatch } = require("../../../common").utils;
 
 router.get("/", tryCatch(controller.GetMyProfile));
 router.put(
@@ -13,5 +13,4 @@ router.put(
   handleValResult,
   tryCatch(controller.UpdateMyProfile)
 );
-
 module.exports = router;

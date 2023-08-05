@@ -1,4 +1,4 @@
 module.exports = {
   HomeController: require("./home"),
-  ProfileController: require("./profile"),
+  ProfileControllers: require("./profile/index"),
 };

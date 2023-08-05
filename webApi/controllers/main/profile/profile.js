@@ -1,4 +1,4 @@
-const { User } = require("../../models");
+const { User } = require("../../../models");
 
 exports.GetMyProfile = async (req, res) => {
   const user = req.user;
@@ -27,5 +27,5 @@ exports.UpdateMyProfile = async (req, res) => {
   user.dateOfBirth = dateOfBirth;
   await user.save();
 
-  return res.status(200).json({message: "Profile updated successfully"});
+  return res.status(200).json({ message: "Profile updated successfully" });
 };
