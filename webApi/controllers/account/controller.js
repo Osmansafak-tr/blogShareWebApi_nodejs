@@ -1,6 +1,6 @@
 const { User } = require("../../models");
 const { AppError } = require("../../common/classes");
-const { ErrorConstants,RoleConstants } = require("../../common/constants");
+const { ErrorConstants, RoleConstants } = require("../../common/constants");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 
@@ -19,7 +19,7 @@ exports.Register = async (req, res) => {
       name: name == null || name == undefined ? "" : name,
       surname: surname == null || surname == undefined ? "" : surname,
       dateOfBirth: dateOfBirth == null ? 0 : dateOfBirth,
-      roles: [RoleConstants.USER]
+      roles: [RoleConstants.USER],
     };
     User.create(userModel);
   });
@@ -27,8 +27,7 @@ exports.Register = async (req, res) => {
 };
 
 exports.Login = async (req, res) => {
-  if(req.user != null)
-    throw new Error("User already login.");
+  if (req.user != null) throw new Error("User already login.");
 
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
@@ -61,12 +60,7 @@ exports.Login = async (req, res) => {
 };
 
 exports.Logout = async (req, res) => {
-  const refreshToken = req.user != null ? req.user.refreshToken : null;
-  if (refreshToken == null)
-    throw new AppError(
-      ErrorConstants.DataNotFound,
-      "Refresh token can not found"
-    );
+  const { refreshToken } = req.user;
   await axios.delete(`${process.env.TOKEN_API_URL}`, {
     data: {
       refreshToken: refreshToken,
@@ -76,19 +70,16 @@ exports.Logout = async (req, res) => {
   return res.status(200).json("User logout successful.");
 };
 
-exports.Refresh = async (req,res) => {
-  const refreshToken = req.user != null ? req.user.refreshToken : null;
-  if (refreshToken == null)
-    throw new AppError(
-      ErrorConstants.DataNotFound,
-      "Refresh token can not found"
-    );
+exports.Refresh = async (req, res) => {
+  const { refreshToken } = req.user;
   // Check User
-  const user = await User.findOne({_id: req.user._id});
-  if(user == null)
+  const user = await User.findOne({ _id: req.user._id });
+  if (user == null)
     throw new AppError(ErrorConstants.DataNotFound, "User can not found");
   // Refresh users refreshToken
-  const tokens = await axios.post(`${process.env.TOKEN_API_URL}/refreshToken`, {refreshToken: refreshToken});
+  const tokens = await axios.post(`${process.env.TOKEN_API_URL}/refreshToken`, {
+    refreshToken: refreshToken,
+  });
   const newRefreshToken = tokens.data.refreshToken;
   user.refreshToken = newRefreshToken;
   await user.save();

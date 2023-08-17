@@ -2,7 +2,6 @@ const { User } = require("../../../models");
 
 exports.GetMyProfile = async (req, res) => {
   const user = req.user;
-  if (user == null) throw new Error("User is not logged in.");
 
   const viewModel = {
     user: {
@@ -19,7 +18,6 @@ exports.GetMyProfile = async (req, res) => {
 
 exports.UpdateMyProfile = async (req, res) => {
   const { name, surname, dateOfBirth } = req.body;
-  if (req.user == null) throw new Error("User is not logged in.");
 
   const user = await User.findOne({ email: req.user.email });
   user.name = name;

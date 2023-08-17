@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const { isAuthenticated } =
+  require("../../middlewares").AccountMiddleWares.auth;
 const { AccountValidator } = require("../../validators");
 const { handleValResult } = require("../../middlewares").ControllerMiddlewares;
 const { tryCatch } = require("../../common/utils");
@@ -16,8 +18,8 @@ router.post(
   handleValResult,
   tryCatch(AccountController.Login)
 );
-router.post("/logout", tryCatch(AccountController.Logout));
+router.post("/logout", isAuthenticated, tryCatch(AccountController.Logout));
 
-router.put("/refresh", tryCatch(AccountController.Refresh));
+router.put("/refresh", isAuthenticated, tryCatch(AccountController.Refresh));
 
 module.exports = router;
