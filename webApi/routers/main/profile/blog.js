@@ -26,4 +26,11 @@ router.post(
   tryCatch(controller.CreateBlog)
 );
 
+router.put(
+  "/:id",
+  validator.UpdateBlog,
+  handleValResult,
+  tryCatch(controller.UpdateBlog)
+);
+
 module.exports = router;

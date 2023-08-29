@@ -22,6 +22,7 @@ module.exports = (error, req, res, next) => {
   }
 
   // Other Errors
+  console.log(error);
   const processedError = {
     error: {
       message: error.message,

@@ -43,3 +43,26 @@ exports.CreateBlog = async (req, res) => {
   await Blog.create(createModel);
   return res.status(200).json("Blog has been created successfully.");
 };
+
+exports.UpdateBlog = async (req, res) => {
+  const { user } = req;
+  const { id } = req.params;
+  const { title, body, keywords } = req.body;
+
+  const blog = await Blog.findOne({ _id: id }).select("-__v");
+  if (blog == null)
+    throw new AppError(ErrorConstants.DataNotFound, "Blog can not found.");
+
+  const sameBlog = await Blog.findOne({title: title, author: user._id});
+  if(sameBlog != null)
+    throw new AppError(
+      ErrorConstants.SameDataAlreadyCreated,
+      "You have a blog with the same title."
+    );
+  blog.title = title;
+  blog.body = body;
+  blog.keywords = keywords;
+
+  blog.save();
+  return res.status(200).json("Blog successfully updated.");
+};
