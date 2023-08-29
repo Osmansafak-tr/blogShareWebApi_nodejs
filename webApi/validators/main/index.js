@@ -1,3 +1,3 @@
 module.exports = {
-  ProfileValidator: require("./profile"),
+  ProfileValidators: require("./profile/index"),
 };

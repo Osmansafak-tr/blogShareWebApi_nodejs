@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { ProfileValidator } = require("../../../validators").MainValidators;
+const { ProfileValidator } = require("../../../validators/main").ProfileValidators;
 const validator = ProfileValidator;
 const { ProfileController } = require("../../../controllers/main").ProfileControllers;
 const controller = ProfileController;
