@@ -12,6 +12,12 @@ const { handleValResult } =
 
 // Router definitions
 router.get("/", tryCatch(controller.GetMyBlogs));
+router.get(
+  "/:id",
+  validator.GetBlogByIdValidator,
+  handleValResult,
+  tryCatch(controller.GetBlogById)
+);
 
 router.post(
   "/",

@@ -11,6 +11,17 @@ exports.GetMyBlogs = async (req, res) => {
   return res.status(200).json(blogs);
 };
 
+exports.GetBlogById = async (req, res) => {
+  const { user } = req;
+  const { id } = req.params;
+
+  const blog = await Blog.findOne({ _id: id }).select("-__v");
+  if (blog == null)
+    throw new AppError(ErrorConstants.DataNotFound, "Blog can not found.");
+
+  return res.status(200).json(blog);
+};
+
 exports.CreateBlog = async (req, res) => {
   const { user } = req;
   const { title, body, keywords } = req.body;
