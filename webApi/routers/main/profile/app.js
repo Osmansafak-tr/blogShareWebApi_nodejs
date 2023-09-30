@@ -1,10 +1,11 @@
 const app = require("express")();
-const { ProfileRouter, BlogRouter } = require("./index");
+const routers = require("./index");
 const { isAuthenticated } = require("../../../middlewares").AccountMiddleWares
   .auth;
 
 app.use("*", isAuthenticated);
-app.use("/", ProfileRouter);
-app.use("/myBlogs", BlogRouter);
+app.use("/", routers.ProfileRouter);
+app.use("/myBlogs", routers.BlogRouter);
+app.use("/myComments", routers.CommentRouter);
 
 module.exports = app;
