@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Keyword, Role, User, Blog, Comment } = require("../models/index");
+const bcrypt = require("bcrypt");
 
 exports.connect = async () => {
   try {
@@ -57,16 +58,18 @@ exports.generateData = async () => {
       },
     ]);
 
-    await User.insertMany([
-      {
-        email: "email1@gmail.com",
-        password: "12345",
-      },
-      {
-        email: "email2@gmail.com",
-        password: "12345",
-      },
-    ]);
+    await bcrypt.hash("12345", 16).then((hashedPassword) => {
+      User.insertMany([
+        {
+          email: "email1@gmail.com",
+          password: hashedPassword,
+        },
+        {
+          email: "email2@gmail.com",
+          password: hashedPassword,
+        },
+      ]);
+    });
 
     const user = await User.findOne({ email: "email1@gmail.com" }).select(
       "_id"
@@ -92,10 +95,12 @@ exports.generateData = async () => {
       {
         author: user._id,
         blog: blog._id,
+        body: "This is first users comment",
       },
       {
         author: user._id,
         blog: blog._id,
+        body: "This is first users second comment",
       },
     ]);
   }

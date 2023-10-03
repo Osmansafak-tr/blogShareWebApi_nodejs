@@ -12,6 +12,10 @@ const commentSchema = Schema({
     ref: "Blog",
     required: true,
   },
+  body: {
+    type: String,
+    required: true,
+  },
 
   comments: [
     {
